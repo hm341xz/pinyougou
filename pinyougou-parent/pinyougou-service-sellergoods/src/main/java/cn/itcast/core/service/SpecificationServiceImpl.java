@@ -2,9 +2,11 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.dao.specification.SpecificationDao;
 import cn.itcast.core.dao.specification.SpecificationOptionDao;
+import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.specification.Specification;
 import cn.itcast.core.pojo.specification.SpecificationOption;
 import cn.itcast.core.pojo.specification.SpecificationOptionQuery;
+import cn.itcast.core.pojo.specification.SpecificationQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -34,9 +36,19 @@ public class SpecificationServiceImpl implements SpecificationService {
 
         //分页插件
         PageHelper.startPage(page,rows);
+        SpecificationQuery specificationQuery = new SpecificationQuery();
+        if (specification != null) {
+            SpecificationQuery.Criteria criteria = specificationQuery.createCriteria();
+            if (specification.getSpecName() != null && !"".equals(specification.getSpecName().trim())) {
+                criteria.andSpecNameLike("%"+specification.getSpecName()+"%");
+            }
+            if (specification.getStatus() != null && !"".equals(specification.getStatus().trim())) {
+                criteria.andStatusEqualTo(specification.getStatus().trim());
+            }
+        }
         //查询分页对象
 
-        Page<Specification> p = (Page<Specification>) specificationDao.selectByExample(null);
+        Page<Specification> p = (Page<Specification>) specificationDao.selectByExample(specificationQuery);
 
         return new PageResult(p.getTotal(),p.getResult());
     }
@@ -96,5 +108,33 @@ public class SpecificationServiceImpl implements SpecificationService {
     @Override
     public List<Map> selectOptionList() {
         return specificationDao.selectOptionList();
+    }
+
+    /**
+     * 审核
+     * @param ids
+     * @param status
+     */
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        //创建商品对象
+        Specification specification = new Specification();
+        //设置审核状态
+        specification.setStatus(status);
+        //遍历
+        for (Long id : ids) {
+            //1:改商品的状态
+            specification.setId(id);
+            //更新状态
+            specificationDao.updateByPrimaryKeySelective(specification);
+            //规格选项表
+            SpecificationOptionQuery query = new SpecificationOptionQuery();
+            query.createCriteria().andSpecIdEqualTo(id);
+            List<SpecificationOption> specificationOptionList = specificationOptionDao.selectByExample(query);
+            for (SpecificationOption specificationOption : specificationOptionList) {
+                specificationOption.setStatus(status);
+                specificationOptionDao.updateByPrimaryKeySelective(specificationOption);
+            }
+        }
     }
 }
