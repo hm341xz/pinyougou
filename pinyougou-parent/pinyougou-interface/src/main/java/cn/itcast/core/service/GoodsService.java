@@ -4,6 +4,8 @@ import cn.itcast.core.pojo.good.Goods;
 import entity.PageResult;
 import vo.GoodsVo;
 
+import java.util.List;
+
 public interface GoodsService {
     void add(GoodsVo vo);
 
@@ -16,4 +18,6 @@ public interface GoodsService {
     void updateStatus(Long[] ids, String status);
 
     void delete(Long[] ids);
+
+    List<Goods> dataToExcel(String auditStatus,String goodsName);
 }

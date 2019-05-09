@@ -305,14 +305,35 @@ public class GoodsServiceImpl implements GoodsService {
                 }
             });
 
-
-
-
-
-
-
         }
 
+    }
+
+    //查询条件只有两个,商品状态getAuditStatus  和  商品名称getGoodsName
+    @Override
+    public List<Goods> dataToExcel(String auditStatus,String goodsName) {
+        //查询分页对象
+        GoodsQuery goodsQuery = new GoodsQuery();
+        //排序
+        goodsQuery.setOrderByClause("id desc");
+
+        GoodsQuery.Criteria criteria = goodsQuery.createCriteria();
+        //判断条件是否为空
+        if (null != auditStatus && !"".equals(auditStatus.trim())) {
+            criteria.andAuditStatusEqualTo(auditStatus.trim());
+        }
+        //判断商品名称 模糊查询
+        if (null != goodsName && !"".equals(goodsName.trim())) {
+            criteria.andGoodsNameLike("%" + goodsName.trim() + "%");
+        }
+        //只查询未删除的
+        criteria.andIsDeleteIsNull();
+        //调用dao层查询
+        List<Goods> goodsList = goodsDao.selectByExample(goodsQuery);
+
+
+
+        return goodsList;
     }
 
     //给库存对象设置属性

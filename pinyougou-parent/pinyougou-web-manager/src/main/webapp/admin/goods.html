@@ -26,6 +26,17 @@
     <script type="text/javascript" src="../js/controller/goodsController.js"></script>
     <script type="text/javascript" src="../js/service/goodsService.js"></script>
     <script type="text/javascript" src="../js/service/itemCatService.js"></script>
+
+    <script type="text/javascript">
+        function fnDataToExcel() {
+            //alert("1111111");
+            //<a href="../goods/dataToExcel.do"><button>导出查询数据</button></a>
+            var goodsName = $("#goodsName").val();
+            var status = $("#status option:selected").val();
+            location.href="../goods/dataToExcel.do?auditStatus="+status+"&goodsName="+goodsName;
+
+        }
+    </script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="findItemCatList()">
@@ -53,14 +64,14 @@
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-                                    状态：<select ng-model="searchEntity.auditStatus">
+                                    状态：<select id="status" ng-model="searchEntity.auditStatus">
                                     <option value="">全部</option>
                                     <option value="0">未申请</option>
                                     <option value="1">审核通过</option>
                                     <option value="2">审核未通过</option>
                                     <option value="3">关闭</option>
                                 </select>
-                                    商品名称：<input type="text" ng-model="searchEntity.goodsName">
+                                    商品名称：<input type="text" id="goodsName" ng-model="searchEntity.goodsName">
                                     <button class="btn btn-default" ng-click="reloadList()">查询</button>
                                 </div>
                             </div>
@@ -111,8 +122,12 @@
                         <!-- 数据表格 /-->
                          <!-- 分页 -->
 						<tm-pagination conf="paginationConf"></tm-pagination>
-                        
-                     </div>
+                        <div class="box-tools pull-right">
+                            <button onclick="fnDataToExcel()">导出查询数据</button>
+
+                            <!--<button class="btn btn-default" ng-click="dataToExcel()">导出查询数据</button>-->
+                        </div>
+                    </div>
                     <!-- /.box-body -->
         
 </body>

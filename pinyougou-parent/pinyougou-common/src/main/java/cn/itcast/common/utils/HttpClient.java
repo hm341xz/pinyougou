@@ -50,6 +50,7 @@ import org.apache.http.util.EntityUtils;
  * 
  */
 public class HttpClient {
+
 	private String url;
 	private Map<String, String> param;
 	private int statusCode;

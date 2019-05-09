@@ -49,4 +49,10 @@ public class ItemCatServiceImpl implements ItemCatService {
     public List<ItemCat> findAll() {
         return itemCatDao.selectByExample(null);
     }
+
+    @Override
+    public String findNameById(Long id) {
+        ItemCat itemCat = itemCatDao.selectByPrimaryKey(id);
+        return itemCat.getName();
+    }
 }
