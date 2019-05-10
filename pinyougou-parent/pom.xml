@@ -48,6 +48,13 @@
     <!-- 依赖管理 不强制依赖  -->
     <dependencyManagement>
         <dependencies>
+            <!--apache 下载excel包-->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>3.14</version>
+            </dependency>
+
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>

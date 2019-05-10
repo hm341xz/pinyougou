@@ -91,7 +91,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
         for (Map map : specList) {
 //            id    :   27
-//            text : 网络
+////            text : 网络
 //            options : 根据27查询规格选项结果集
             SpecificationOptionQuery query = new SpecificationOptionQuery();
             //map.get("id")  Object --> 简单类型 Integer String  -->     长整  Long   类型转换异常
@@ -99,6 +99,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
             query.createCriteria().andSpecIdEqualTo(Long.parseLong(String.valueOf(map.get("id"))));
             List<SpecificationOption> specificationOptions = specificationOptionDao.selectByExample(query);
             map.put("options",specificationOptions);
+
         }
 
         return specList;
