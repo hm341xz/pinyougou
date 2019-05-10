@@ -22,7 +22,6 @@ import java.util.UUID;
 public class PayServiceImpl implements PayService {
 
 
-
     //获取二维码内容 value
     //生成二维码
 /*    var qr=new QRious({
@@ -63,12 +62,12 @@ public class PayServiceImpl implements PayService {
         //设置https协议
         httpClient.setHttps(true);
 
-        Map<String,String> param = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
 
 //        公众账号ID 	appid 	是 	String(32) 	wxd678efh567hg6787 	微信支付分配的公众账号ID（企业号corpid即为此appId）
-        param.put("appid",appid);
+        param.put("appid", appid);
 //        商户号 	mch_id 	是 	String(32) 	1230000109 	微信支付分配的商户号
-        param.put("mch_id",partner);
+        param.put("mch_id", partner);
 //        设备号 	device_info 	否 	String(32) 	013467007045764 	自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
 //        随机字符串 	nonce_str 	是 	String(32) 	5K8264ILTKCH16CQ2502SI8ZNMTM67VS 	随机字符串，长度要求在32位以内。推荐随机数生成算法
         param.put("nonce_str", WXPayUtil.generateNonceStr());
@@ -105,27 +104,24 @@ public class PayServiceImpl implements PayService {
 //
 
 
-
-
-
         try {
             String xml = WXPayUtil.generateSignedXml(param, partnerkey);
 //        签名 	sign 	是 	String(32) 	C380BEC2BFD727A4B6845133519F3AD6 	通过签名算法计算得出的签名值，详见签名生成算法
 //        签名类型 	sign_type 	否 	String(32) 	MD5 	签名类型，默认为MD5，支持HMAC-SHA256和MD5。
-        //设置入参
-        httpClient.setXmlParam(xml);
-        //POST提交
-        httpClient.post();
-        //响应
+            //设置入参
+            httpClient.setXmlParam(xml);
+            //POST提交
+            httpClient.post();
+            //响应
             String content = httpClient.getContent();
 
             Map<String, String> map = WXPayUtil.xmlToMap(content);
             //链接 code_url
             //支付ID
-         /*   map.put("out_trade_no",payLog.getOutTradeNo());*/
-            map.put("out_trade_no",id);
+            /*   map.put("out_trade_no",payLog.getOutTradeNo());*/
+            map.put("out_trade_no", id);
             //总金额
-            map.put("total_fee",String.valueOf(payLog.getTotalFee()));
+            map.put("total_fee", String.valueOf(payLog.getTotalFee()));
 
             return map;
         } catch (Exception e) {
@@ -145,23 +141,17 @@ public class PayServiceImpl implements PayService {
         httpClient.setHttps(true);
 
         //入参
-        Map<String,String> param = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
 //        公众账号ID 	appid 	是 	String(32) 	wxd678efh567hg6787 	微信支付分配的公众账号ID（企业号corpid即为此appId）
-        param.put("appid",appid);
+        param.put("appid", appid);
 //        商户号 	mch_id 	是 	String(32) 	1230000109 	微信支付分配的商户号
-        param.put("mch_id",partner);
+        param.put("mch_id", partner);
 //        设备号 	device_info 	否 	String(32) 	013467007045764 	自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
 //        随机字符串 	nonce_str 	是 	String(32) 	5K8264ILTKCH16CQ2502SI8ZNMTM67VS 	随机字符串，长度要求在32位以内。推荐随机数生成算法
         param.put("nonce_str", WXPayUtil.generateNonceStr());
         param.put("out_trade_no", out_trade_no);
 
-
-
         try {
-
-
-
-
             String xml = WXPayUtil.generateSignedXml(param, partnerkey);
 //        签名 	sign 	是 	String(32) 	C380BEC2BFD727A4B6845133519F3AD6 	通过签名算法计算得出的签名值，详见签名生成算法
 //        签名类型 	sign_type 	否 	String(32) 	MD5 	签名类型，默认为MD5，支持HMAC-SHA256和MD5。
@@ -184,4 +174,40 @@ public class PayServiceImpl implements PayService {
         return null;
     }
 
+    //关闭订单
+    @Override
+    public void closeOrder(String out_trade_no) {
+        String url = "https://api.mch.weixin.qq.com/pay/closeorder";
+        //请求Http请求  响应  使用Apache开发的 HttpClient  Http请求的客户端 Java代码写了一个浏览器  (模拟了浏览器)
+        HttpClient httpClient = new HttpClient(url);
+        //设置https协议
+        httpClient.setHttps(true);
+
+        //入参
+        Map<String, String> param = new HashMap<>();
+//        公众账号ID 	appid 	是 	String(32) 	wxd678efh567hg6787 	微信支付分配的公众账号ID（企业号corpid即为此appId）
+        param.put("appid", appid);
+//        商户号 	mch_id 	是 	String(32) 	1230000109 	微信支付分配的商户号
+        param.put("mch_id", partner);
+//        设备号 	device_info 	否 	String(32) 	013467007045764 	自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
+//        随机字符串 	nonce_str 	是 	String(32) 	5K8264ILTKCH16CQ2502SI8ZNMTM67VS 	随机字符串，长度要求在32位以内。推荐随机数生成算法
+        param.put("nonce_str", WXPayUtil.generateNonceStr());
+        param.put("out_trade_no", out_trade_no);
+
+        try {
+            String xml = WXPayUtil.generateSignedXml(param, partnerkey);
+//        签名 	sign 	是 	String(32) 	C380BEC2BFD727A4B6845133519F3AD6 	通过签名算法计算得出的签名值，详见签名生成算法
+//        签名类型 	sign_type 	否 	String(32) 	MD5 	签名类型，默认为MD5，支持HMAC-SHA256和MD5。
+            //设置入参
+            httpClient.setXmlParam(xml);
+            //POST提交
+            httpClient.post();
+            //响应
+            String content = httpClient.getContent();
+            Map<String, String> map = WXPayUtil.xmlToMap(content);
+            System.out.println(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
