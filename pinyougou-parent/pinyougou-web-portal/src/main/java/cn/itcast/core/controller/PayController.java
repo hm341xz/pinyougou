@@ -45,8 +45,9 @@ public class PayController {
                     //睡一会
                     Thread.sleep(3000);
                     x++;
-                    if(x > 200){
+                    if(x > 10){
                         //再次调用 微信服务器Api  关闭订单(同学写了)
+                        payService.closeOrder(out_trade_no);
                         return new Result(false,"支付超时");
                     }
                 }else{
