@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface ChartService {
     List<Chart> findChart();
+
+    List<Chart> particularsById(String sellerId);
 }

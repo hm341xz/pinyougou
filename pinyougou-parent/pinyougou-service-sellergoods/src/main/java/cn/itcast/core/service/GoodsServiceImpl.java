@@ -18,6 +18,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.solr.core.SolrTemplate;
@@ -159,9 +160,12 @@ public class GoodsServiceImpl implements GoodsService {
         criteria.andIsDeleteIsNull();
 
         //查询分页对象
-        Page<Goods> p = (Page<Goods>) goodsDao.selectByExample(goodsQuery);
-
-        return new PageResult(p.getTotal(), p.getResult());
+        List<Goods> goodsList = goodsDao.selectByExample(goodsQuery);
+        PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
+//        Page<Goods> p = (Page<Goods>) goodsDao.selectByExample(goodsQuery);
+        List<Goods> list = pageInfo.getList();
+        long total = pageInfo.getTotal();
+        return new PageResult(total, list);
     }
 
     //根据Id 查询一个包装对象

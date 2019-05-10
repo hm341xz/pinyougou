@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 商家管理
@@ -84,5 +85,10 @@ public class SellerServiceImpl implements SellerService {
         }
         Page<Seller> p = (Page<Seller>) sellerDao.selectByExample(sellerQuery);
         return new PageResult(p.getTotal(), p.getResult());
+    }
+
+    @Override
+    public List<Seller> findAll() {
+        return sellerDao.selectByExample(null);
     }
 }

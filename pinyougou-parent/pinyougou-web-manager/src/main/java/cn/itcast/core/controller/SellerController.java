@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 运营商管理商家
  */
@@ -18,6 +20,15 @@ public class SellerController {
 
     @Reference
     private SellerService sellerService;
+
+    /**
+     * 查询全部卖家
+     * @return
+     */
+    @RequestMapping("findAll")
+    public List<Seller> findAll(){
+        return sellerService.findAll();
+    }
 
     /**
      * 商家审核
