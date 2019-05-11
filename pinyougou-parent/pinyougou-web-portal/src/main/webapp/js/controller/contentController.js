@@ -1,4 +1,4 @@
-app.controller("contentController",function($scope,contentService){
+app.controller("contentController",function($scope,contentService,itemCatService){
 
 
 	//数组  一大堆广告集合
@@ -18,4 +18,15 @@ app.controller("contentController",function($scope,contentService){
 		location.href="http://localhost:9103/search.html#?keywords="+$scope.keywords;
 	}
 	//http://localhost:9103/search.html  跳转到search.html  ng-init=loadKeywords()   $location.search()['keywords']
+
+
+
+
+    //查询商品分类信息
+    $scope.findItemCatList=function () {
+        itemCatService.findItemCatList().success(function (response) {
+            $scope.itemCatList=response;
+        })
+    }
+
 });

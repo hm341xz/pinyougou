@@ -213,4 +213,15 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="findByParentId" resultMap="BaseResultMap">
+    select
+    /*这里查询直接用字段名，查询的性能会比用*高一点*/
+    *
+    from
+    tb_item_cat
+    where
+    /*parentId为findByParentId方法传递的参数*/
+    parent_id=#{parentId} limit 15
+  </select>
 </mapper>
