@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller,$location,typeTemplateService ,itemCatService,uploadService ,goodsService){	
+app.controller('goodsController' ,function($scope,$controller,$location,typeTemplateService ,itemCatService,uploadService ,goodsService,seckillService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -286,4 +286,37 @@ app.controller('goodsController' ,function($scope,$controller,$location,typeTemp
 			}
 		});
 	}
+
+	//传递过来的是点击的商品id
+    $scope.findItemById = function (id) {
+
+        $scope.id=id;
+        seckillService.findItemById(id).success(
+        	function (response) {
+				$scope.itemByIdList = response;
+            }
+		)
+
+
+
+    }
+	//秒杀
+	$scope.applySeckill=function () {
+        $scope.seckill.goodsId = $scope.id
+		//alert($scope.id)
+        seckillService.applySeckill($scope.seckill,$scope.selectIds).success(
+        	function (response) {
+                // 判断保存是否成功:
+                if(response.flag==true){
+                    // 申请成功
+                    alert(response.message);
+                    $scope.selectIds = [];
+                }else{
+                    // 申请失败
+                    alert(response.message);
+                    $scope.selectIds = [];
+                }
+            }
+		)
+    }
 });	
