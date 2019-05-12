@@ -27,10 +27,10 @@ app.controller('payController' ,function($scope ,$location,payService){
 	queryPayStatus=function(){
 		payService.queryPayStatus($scope.out_trade_no).success(
 			function(response){
-				if(response.success){
+				if(response.flag){
 					location.href="paysuccess.html#?money="+$scope.money;
 				}else{
-					if(response.message=='二维码超时'){
+					if(response.message=='支付超时'){
 						//$scope.createNative();//重新生成二维码
 						alert("二维码超时");
 					}else{

@@ -20,15 +20,15 @@ app.controller('seckillGoodsController' ,function($scope,$location,seckillGoodsS
 				//倒计时开始
 				//获取从结束时间到当前日期的秒数
 				allsecond=  Math.floor( (new Date($scope.entity.endTime).getTime()- new Date().getTime())/1000 );
-				 
+
 				time= $interval(function(){
 					allsecond=allsecond-1;
 					$scope.timeString= convertTimeString(allsecond);
-					
+
 					if(allsecond<=0){
 						$interval.cancel(time);
-					}		
-					
+					}
+
 				},1000 );
 				
 			}		
@@ -52,6 +52,7 @@ app.controller('seckillGoodsController' ,function($scope,$location,seckillGoodsS
 	
 	//提交订单 
 	$scope.submitOrder=function(){
+		//alert("111111111")
 		seckillGoodsService.submitOrder( $scope.entity.id ).success(
 			function(response){
 				if(response.flag){//如果下单成功

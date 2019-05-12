@@ -12,4 +12,10 @@ public interface SeckillService {
 
 
     void applySeckill(SeckillGoods seckillGoods, Long[] selectItemIds);
+
+    List<SeckillGoods> findList();
+
+    SeckillGoods findOneFromRedis(Long id);
+
+    void submitOrder(Long seckillId, String userId);
 }
