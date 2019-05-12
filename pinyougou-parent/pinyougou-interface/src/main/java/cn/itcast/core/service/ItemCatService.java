@@ -7,9 +7,13 @@ import java.util.List;
 public interface ItemCatService {
     List<ItemCat> findByParentId(Long parentId);
 
+    List<ItemCat> findByParentId();
+
     ItemCat findOne(Long id);
 
     List<ItemCat> findAll();
 
     String findNameById(Long id);
+
+
 }
