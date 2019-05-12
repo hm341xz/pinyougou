@@ -22,4 +22,9 @@ public class ChartController {
         System.out.println("收到请求");
         return chartService.findChart();
     }
+
+    @RequestMapping("/particularsById")
+    public List<Chart> particularsById(String sellerId){
+        return chartService.particularsById(sellerId);
+    }
 }

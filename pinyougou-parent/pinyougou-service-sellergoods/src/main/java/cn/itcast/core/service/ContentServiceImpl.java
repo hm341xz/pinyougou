@@ -81,6 +81,7 @@ public class ContentServiceImpl implements ContentService {
 	//根据广告类型ID 查询所有广告结果集
     @Override
     public List<Content> findByCategoryId(Long categoryId) {
+		//redisTemplate.delete("content");
 		//1:查询缓存
 		List<Content> contentList = (List<Content>) redisTemplate.boundHashOps("content").get(categoryId);
 
@@ -99,8 +100,10 @@ public class ContentServiceImpl implements ContentService {
 			redisTemplate.boundHashOps("content").expire(4, TimeUnit.HOURS);
 
 		}
+		//剩余时间
 		Long c = redisTemplate.boundHashOps("content").getExpire();
 		System.out.println(c);
+		//redisTemplate.boundHashOps("content").delete(categoryId);
 		//3: 直接广告结果集
 		return contentList;
 
