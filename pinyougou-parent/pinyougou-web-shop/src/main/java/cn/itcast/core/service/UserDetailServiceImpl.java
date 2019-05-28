@@ -36,7 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if(null != seller){
           //判断此用户的状态是否为审核通过
             if("1".equals(seller.getStatus())){
-                //                //此用户可以登陆
+                //                此用户可以登陆
                 Set<GrantedAuthority> authorities = new HashSet<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_SELLER"));
                 //  参数1：用户名  参数2：加密后的密码

@@ -10,6 +10,7 @@ import javax.jms.MessageListener;
 
 /**
  * 消息处理类
+ *
  */
 public class PageListener implements MessageListener {
 
@@ -22,7 +23,7 @@ public class PageListener implements MessageListener {
         try {
             String id = atm.getText();
             System.out.println("静态化项目接收到的商品ID:" + id);
-            //3: 将商品进行静态化处理   静态化页面 磁盘上
+            // 将商品进行静态化处理   静态化页面 磁盘上
             staticPageService.index(Long.parseLong(id));
 
         } catch (JMSException e) {
